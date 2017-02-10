@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>文件对象 file API</title>
+		<style type="text/css">
+			.upload>input{
+				display: none;
+			}
+			div.upload{
+				width: 90px;
+				height: 20px;
+				text-align: center;
+				padding: 10px 20px;
+				background-color: yellow;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 注意表单上传文件一定要设置 enctype="multipart/form-data" -->
+		<form action="#" method="post" enctype="multipart/form-data">
+			<div class="upload">
+				请选择图片
+				<!-- multiple：多选 -->
+				<input type="file" name="photo" id="photo" accept="image/*" multiple />
+			</div>
+			<!-- 展示选择的图片的信息 -->
+			<ul></ul>
+		</form>
+	</body>
+</html>
+<script src="jquery/jquery-3.1.1.js"></script>
+<script type="text/javascript">
+	$('.upload').click(function(){
+		$('#photo')[0].click();
+	});
+	
+	$('#photo').change(function(){
+		// 原生 js input[type=file] 对象调用 files 属性，可以得到你所选择的
+		// 文件列表对象 FileList（里面可能有多个 file 对象）
+		var files = $(this)[0].files;
+		// 利用 for 循环遍历 file
+		for (var i = 0; i < files.length; i++) {
+			var file = files[i];
+			$('ul').append('<li><img src=' + URL.createObjectURL(file) + ' /><br />' + 
+			'name = ' + file.name + '，size = ' + Math.round(file.size / 1000) + 
+			'KB，type = ' + file.type + '，modified' + file.lastModifiedDate + '</li>');
+		}
+	});
+</script>
+
+
+
